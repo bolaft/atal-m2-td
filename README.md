@@ -8,19 +8,19 @@ Ce TD vous fait construire une pipeline RAG minimale en 3 étapes :
 
 ## Installation
 
-### Option A - conda (recommandé, mais optionnel)
-
-```bash
-conda create -n tp-rag python=3.11
-conda activate tp-rag
-```
-
-### Option B - venv (si vous n'avez pas conda)
+### Option A - venv
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
+```
+
+### Option B - conda
+
+```bash
+conda create -n tp-rag
+conda activate tp-rag
 ```
 
 ### Dépendances Python
