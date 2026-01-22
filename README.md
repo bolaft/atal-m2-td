@@ -6,7 +6,7 @@ Ce TD vous fait construire une pipeline RAG minimale en 3 étapes :
 2) **Embeddings** : calculer un vecteur par chunk
 3) **RAG** : récupérer les meilleurs chunks, construire un contexte, interroger un LLM
 
-## Installation
+## Setup
 
 ### Option A - venv
 
@@ -50,7 +50,8 @@ ollama pull qwen2:0.5b
 ## Données
 
 Le repo contient déjà un PDF dans `doc/` pour tester.
-Vous pouvez ajouter vos propres fichiers PDF dans `doc/`.
+Vous pouvez ajouter vos propres fichiers PDF dans `doc/` pour complexifier la tâche.
+
 Source recommandée : [https://www.insee.fr/fr/statistiques](https://www.insee.fr/fr/statistiques).
 
 ## Utilisation (les 3 scripts du TD)
