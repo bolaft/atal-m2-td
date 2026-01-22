@@ -165,3 +165,50 @@ def get_current_time() -> str:
 llm.answer("Quelle heure est-il ?", tools=[get_current_time])
 # Il est 14:35:20.
 ```
+
+## Évaluation
+
+Lancez la pipeline une fois (chunks + embeddings), puis démarrez l'interface :
+
+```bash
+./run_chunker.py
+./run_embedder.py
+./run_rag_client.py
+```
+
+Pour chaque question ci-dessous, vérifiez :
+- La réponse s'appuie sur le document et inclut au moins une citation (page ou identifiant de chunk).
+- Les citations pointent vers des passages qui soutiennent bien la réponse.
+- Si l'information n'est pas dans le document, le système s'abstient ("je ne sais pas") sans inventer.
+
+### Tests "lookup" (réponse courte + citation précise)
+
+- "Quel est le PIB par habitant des Pays de la Loire en 2016 ?"
+- "Quel est le taux de chômage mentionné dans le document (valeur + période) ?"
+- "Quel indicateur est utilisé pour mesurer l'effort de R&D régional, et comment est-il défini ?"
+
+### Tests "définition / méthode" (retrieval sur encadrés)
+
+- "Définis solde naturel et solde migratoire tels qu'utilisés dans le dossier."
+- "Comment le dossier définit-il l'artificialisation (métrique / source) ?"
+
+### Tests "multi-preuves" (2+ citations attendues)
+
+- "Explique le lien entre croissance démographique, logement et artificialisation (2 passages distincts)."
+- "Que dit le dossier sur les impacts de la crise Covid-19 (activité économique, mobilité/air, emploi) ?"
+
+### Tests "robustesse" (reformulation)
+
+Posez deux fois la même question avec une reformulation et comparez :
+- La réponse doit rester cohérente.
+- Les citations doivent rester pertinentes.
+
+Exemple :
+- "Quels sont les grands enjeux mis en avant en introduction ?"
+- "En deux phrases, quels enjeux l'avant-propos met-il en avant ?"
+
+### Tests "abstention" (doit répondre "je ne sais pas")
+
+- "Donne le numéro SIRET de l'Insee cité dans ce document."
+- "Quel est le salaire moyen des enseignants en Pays de la Loire en 2020, selon ce dossier ?"
+- "Quelle est l'adresse e-mail personnelle de l'auteur du dossier ?"
