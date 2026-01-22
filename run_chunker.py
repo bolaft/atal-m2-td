@@ -8,6 +8,9 @@ from pathlib import Path
 from pypdf import PdfReader
 from tqdm import tqdm
 
+import nltk
+from nltk.tokenize import sent_tokenize
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━ #
 #           CONFIG           #
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━ #
@@ -15,6 +18,8 @@ from tqdm import tqdm
 INPUT_DIR = "./doc"
 OUTPUT_FILE = "./out/chunks.jsonl"
 CHUNK_SIZE = 512
+
+nltk.download("punkt")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━ #
 #           PARSER           #
@@ -37,25 +42,13 @@ def read_file(path: Path) -> str:
 #           CHUNKER          #
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━ #
 
-def chunk_file(text: str) -> list[str]:
-	"""
-	Simple chunker qui divise le texte en morceaux de taille fixe.
-	"""
-
-	words = text.split()
-	chunks = []
-	current_chunk = []
-
-	for word in words:
-		current_chunk.append(word)
-		if len(" ".join(current_chunk)) >= CHUNK_SIZE:
-			chunks.append(" ".join(current_chunk))
-			current_chunk = []
-
-	if current_chunk:
-		chunks.append(" ".join(current_chunk))
-
+def chunk_sentences(text: str, n: int = 3) -> list[str]:
+	sentences = sent_tokenize(text)
+	chunks = [" ".join(sentences[i : i + n]) for i in range(0, len(sentences), n)]
 	return chunks
+
+def chunk_file(text: str) -> list[str]:
+	return chunk_sentences(text, n=3)
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━ #
 #             RUN            #
